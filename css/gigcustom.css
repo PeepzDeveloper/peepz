@@ -1,0 +1,282 @@
+/*
+    Document   : gigcustom
+    Created on : 30 Sep 2017, 11:23:08 PM
+    Author     : craig
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*Form Panel*/
+.formpanel {
+	margin-top: 20px;
+}
+.formpanel .formrow {
+	margin-bottom: 15px;
+}
+.formpanel .form-control {
+	height: auto;
+	border-radius: 10px;
+	padding: 10px 13px;
+	border-color: #ddd;
+}
+.formpanel select.form-control {
+	padding: 13px 12px;
+	border-radius:10px;
+	line-height:45px;
+}
+.formpanel textarea.form-control {
+	height: 150px;
+}
+.formpanel .btn {
+	background: #00a2ff;
+	color: #fff;
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 16px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+.formpanel .btn:hover {
+	background: #222;
+}
+
+/*Skills*/
+.skillswrap {
+	margin-top: 20px;
+}
+.skillswrap h5 {
+	color: #7b7b7b;
+	font-weight: 400;
+	margin-bottom: 5px;
+}
+/*Experience*/
+.experienceList {
+	margin-bottom: 0 !important;
+}
+.experienceList li {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 30px !important;
+	padding-left: 0 !important;
+	padding-top: 0 !important;
+	margin-top: 30px;
+  list-style:none;
+}
+.experienceList li:hover {
+	border-bottom-color: #00a2ff;
+}
+.experienceList li:before {
+	display: none;
+}
+.experienceList li:last-child {
+	border-bottom: 0;
+}
+.experienceList li h4 {
+	font-size: 18px;
+	font-weight: 700;
+	color: #58c0ff;
+	margin-bottom: 10px;
+}
+.experienceList li p {
+	margin-bottom: 0 !important;
+	margin-top: 10px;
+}
+/*Portfolio*/
+.userPortfolio li {
+	padding: 0 15px !important;
+	margin-top: 30px;
+  list-style:none;
+}
+.userPortfolio li:before {
+	display: none;
+}
+.userPortfolio li .imgbox {
+	overflow: hidden;
+	position: relative
+}
+.userPortfolio li .itemHover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(22,34,46,.9);
+	transform: scale(0);
+	transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-webkit-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	-o-transition: all .5s ease
+}
+.userPortfolio li:hover .itemHover {
+	transform: scale(1)
+}
+.userPortfolio li .zoombox {
+	display: table;
+	width: 100%;
+	height: 20%;
+	text-align: right
+}
+.userPortfolio li .item-zoom {
+	display: inline-block;
+	border: 2px solid #fff;
+	padding: 6px 12px;
+	margin: 15px 15px 0 0;
+	color: #fff
+}
+.userPortfolio li .item-zoom:hover {
+	background: #2079f2
+}
+.userPortfolio li .infoItem {
+	display: table;
+	width: 100%;
+	height: 70%;
+	text-align: center
+}
+.userPortfolio li .itemtitle {
+	vertical-align: bottom;
+	padding: 0 15px 15px;
+	position: relative;
+	display: table-cell;
+}
+.userPortfolio li .itemtitle h5 {
+	color: #fff;
+	font-size: 18px;
+	margin: 0 0 5px
+}
+.userPortfolio li .itemtitle p {
+	color: #ccc;
+	line-height: 18px
+}
+.userPortfolio li .itemtitle a {
+	color: #2079f2
+}
+.userPortfolio li.shown, .no-cssanimations .userPortfolio li, .no-js .grid li {
+	opacity: 1
+}
+.userPortfolio li a, .userPortfolio li img {
+	outline: 0;
+	border: none;
+	display: block;
+	max-width: 100%
+}
+
+.optionlist {
+	list-style: none;
+  padding-left: 0px;
+}
+.optionlist li {
+	margin-bottom: 10px;
+	padding: 5px 0;
+	position: relative;
+	padding-left: 30px;
+}
+.optionlist li span {
+	position: absolute;
+	right: 0;
+	top: 6px;
+}
+.optionlist li input[type=checkbox] {
+	display: none;
+}
+.optionlist li input[type=checkbox] + label {
+	padding-left: 0px;
+  padding:0px;
+  width: 20px;
+	height: 20px;
+	border: 1px solid #e0e0e0;
+	background: #f5f5f5;
+	cursor: pointer;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/*Listing*/
+.searchList {
+	list-style: none;
+}
+.searchList li {
+	background: #fff;
+	border: 1px solid #e4e4e4;
+	padding: 20px;
+	margin-bottom: 30px;
+  box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.searchList li:hover {
+	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	border: 1px solid #00a2ff;
+}
+.searchList li .Gigimg {
+	/*float: left;*/
+	width: 70px;
+	margin-right: 15px;
+}
+.searchList li h3 a {
+	font-size: 18px;
+	font-weight: 600;
+	color: #00a8ff;
+}
+.searchList li .companyName {
+	margin: 10px 0;
+	color: #969595;
+}
+.searchList li .companyName a {
+	color: #969595;
+}
+.searchList li a:hover {
+	color: #333;
+}
+.searchList li .location {
+	color: #000;
+}
+.searchList li .location span {
+	color: #333;
+}
+.searchList li .listbtn {
+	margin-top: 20px;
+}
+.searchList li .listbtn a {
+	background: #00a2ff;
+	display: block;
+	border-radius: 0;
+	width: 100%;
+	color: #fff;
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: 10px 15px;
+	text-align: center;
+}
+.searchList li .listbtn a:hover {
+	background: #333;
+	text-decoration: none;
+}
+.searchList li p {
+	line-height: 22px;
+	color: #333;
+	margin: 10px 0 0 0;
+}
+.searchList li .cateinfo {
+	color: #00a2ff;
+	margin: 10px 0;
+}
+.searchList li .minsalary {
+	font-size: 22px;
+	font-weight: 700;
+	text-align: center;
+	margin-top: 25px;
+	color: #a8d815;
+}
+.searchList li .minsalary span {
+	color: #999;
+	font-weight: 400;
+}
+
+/*Gig detail*/
+.Gig-header .Giginfo .companyinfo {
+	text-align: left;
+	margin-top: 30px;
+	border-top: 1px solid #eee;
+	padding-top: 30px;
+}

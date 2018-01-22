@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="Cricket Stats">
+    <serverData>
+      <paths name="Cricket Stats">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="peepz" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Private: Ascherman">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Private: DeltaBEC">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
