@@ -150,7 +150,7 @@ HTML;
 
     $FilterCompany = ($IsSuperUser == 't' ? '' : "(companyid <> 1) and ");
     $sSQL = "select contactid, (firstnames || ' ' || surname) as name,
-              coalesce(profileimage, 'logos/jobimg.jpg') as profileimage, description,suburb, race, age_in_years(dob) as age
+              coalesce(profileimage, 'logos/jobimg.jpg') as profileimage, description,suburb, race, age_in_years(dob) as age, gender
               from contacts
               where isagent = 'f'
               order by created desc";
@@ -176,6 +176,7 @@ HTML;
         {
           //$Return .= "<div class='row'>";
         }
+
         $Return .= "<div class='col-lg-3 col-md-3'>
                       <div class='card'>
                         <img class='card-img-top img-responsive' style='max-height: 180px;' src='" .html_entity_decode($row['profileimage']) ."' alt='$row[gender]'>
@@ -243,7 +244,7 @@ HTML;
                  </thead>
                   <tbody>
                   <tr>
-                      <td style='width:50px;'><span class='round'><img src='logos/peepz_1.jpg' alt='user' width='50'></span></td>
+                      <td style='width:50px;'><span class='round'><img src='assets/images/users/1.jpg' alt='user' width='50'></span></td>
                       <td><h6>Craig Vermeulen</h6><small class='text-muted'>Hrs</small></td>
                       <td>R1000 (test data)</td>
                   </tr>

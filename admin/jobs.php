@@ -1,20 +1,20 @@
 <?php
-  require_once "../functions/functionmain.php";
+require_once "../functions/functionmain.php";
 
-  call_user_func('Gigs_' . Get("fn", 'Default'));
+call_user_func('Gigs_' . Get("fn", 'Default'));
 
-  function Gigs_Default()
-  {
+function Gigs_Default()
+{
     //require_once "../functions/setpage.php";
     $ProfileID = Get('profileid');
 
     echo "<div id='Gigdiv'>";
     Gigs_DisplayTable();
     echo "</div>";
-  }
+}
 
-  function Gigs_Edit()
-  {
+function Gigs_Edit()
+{
     require_once "../functions/formpage.php";
     $ContactID = Get('contactid');
     $JobID = Get('jobid');
@@ -22,46 +22,40 @@
     echo "<div class='Gig-header'>
           <div class='Giginfo'>";
 
-    if($JobID == '')
-      {
+    if ($JobID == '') {
         echo "<p class='error'>Sorry, something went wrong.</p>";
-      }
-      else
-      {
+    } else {
         $SQL = "select * from jobs where jobid=$1";
-        if(execute_sql($SQL, $Details, $error,["$JobID"]))
-        {
-          $rwDetail = $Details[0];
-          $Form = new FormPage("frmGig", "frmGig", "jobs", "jobid", 'jobid',"$JobID");
-          $Form->PostUrl = "admin/jobs.php?fn=ViewAdmin&jobid=";
-          $Form->ContentDiv = "Gigdiv";
-          $Form->AddSubHeading("Add New Gig");
-          $Form->AddHidden("jobid","txtjobid","$JobID");
-          $Form->AddTextBox("title", 'txtID', "$rwDetail[title]", 'Title', '', '', '', true, true, true, true, true);
-          $Form->AddSelect("stafftypeid", "selstafftype", "$rwDetail[stafftypeid]", "Peepz Type", "stafftypeid", "display", "stafftypes", "", "display", "", "", true, true, true, true, false, "", "");
-          $Form->AddTextarea("description", "txtdescription", "$rwDetail[description]", "Description", "", "", '', true, true, true,true);
-          $Form->AddSelect("ratetypeid", "selratetype", "$rwDetail[ratetypeid]", "Rate Type", "ratetypeid", "display", "ratetypes", "", "display", "", "", true, true, true, true, false, "", "");
-          $Form->AddCurrency("suggestedrate", 'txtrate', "$rwDetail[suggestedrate]", 'Rate', '', '', '', true, true, true, true, true);
-          $Form->AddDate("datestart", 'DtStart', "$rwDetail[datestart]", 'Start Date', '', '', '', true, true, true, true, true);
-          $Form->AddDate("dateend", 'dtEnd', "$rwDetail[dateend]", 'End Date', '', '', '', true, true, true, true, true);
-          $Form->AddTime("timestart", 'tmStart', "$rwDetail[timestart]", 'Start Time', '', '', '', true, true, true, true, true);
-          $Form->AddTime("timeend", 'tmEnd', "$rwDetail[timeend]", 'End Time', '', '', '', true, true, true, true, true);
+        if (execute_sql($SQL, $Details, $error, ["$JobID"])) {
+            $rwDetail = $Details[0];
+            $Form = new FormPage("frmGig", "frmGig", "jobs", "jobid", 'jobid', "$JobID");
+            $Form->PostUrl = "admin/jobs.php?fn=ViewAdmin&jobid=";
+            $Form->ContentDiv = "Gigdiv";
+            $Form->AddSubHeading("Add New Gig");
+            $Form->AddHidden("jobid", "txtjobid", "$JobID");
+            $Form->AddTextBox("title", 'txtID', "$rwDetail[title]", 'Title', '', '', '', true, true, true, true, true);
+            $Form->AddSelect("stafftypeid", "selstafftype", "$rwDetail[stafftypeid]", "Peepz Type", "stafftypeid", "display", "stafftypes", "", "display", "", "", true, true, true, true, false, "", "");
+            $Form->AddTextarea("description", "txtdescription", "$rwDetail[description]", "Description", "", "", '', true, true, true, true);
+            $Form->AddSelect("ratetypeid", "selratetype", "$rwDetail[ratetypeid]", "Rate Type", "ratetypeid", "display", "ratetypes", "", "display", "", "", true, true, true, true, false, "", "");
+            $Form->AddCurrency("suggestedrate", 'txtrate', "$rwDetail[suggestedrate]", 'Rate', '', '', '', true, true, true, true, true);
+            $Form->AddDate("datestart", 'DtStart', "$rwDetail[datestart]", 'Start Date', '', '', '', true, true, true, true, true);
+            $Form->AddDate("dateend", 'dtEnd', "$rwDetail[dateend]", 'End Date', '', '', '', true, true, true, true, true);
+            $Form->AddTime("timestart", 'tmStart', "$rwDetail[timestart]", 'Start Time', '', '', '', true, true, true, true, true);
+            $Form->AddTime("timeend", 'tmEnd', "$rwDetail[timeend]", 'End Time', '', '', '', true, true, true, true, true);
 
-          echo $Form->Display();
+            echo $Form->Display();
+        } else {
+            echo "<p class='error'>Sorry, something went wrong.</p>";
         }
-        else
-        {
-          echo "<p class='error'>Sorry, something went wrong.</p>";
-        }
-      }
+    }
 
     echo "</div>
       </div>
           </div>";
-  }
+}
 
-  function Gigs_ViewAdmin()
-  {
+function Gigs_ViewAdmin()
+{
     require_once "../functions/formpage.php";
     $ContactID = Get('contactid');
     $JobID = Get('jobid');
@@ -72,10 +66,9 @@
               (select count(*) from jobrequests where jobid = j.jobid) as requests
               from jobs j where jobid=$1";
 
-    if(execute_sql($sSQL, $Ra, $error, [$JobID]))
-    {
-      $Row = $Ra[0];
-      echo "<div class='card'>
+    if (execute_sql($sSQL, $Ra, $error, [$JobID])) {
+        $Row = $Ra[0];
+        echo "<div class='card'>
             <div class='card-body'>
           <div class='row'>
             <div class='col-md-8'>
@@ -95,8 +88,8 @@
         </div>
         ";
 
-      //once happy with tab - move to class / common function
-    echo "
+        //once happy with tab - move to class / common function
+        echo "
                 <ul class='nav nav-tabs' id='GigViewTabs' role='tablist'>
                   <li class='nav-item'> <a class='nav-link active' data-toggle='tab' data-func='Activity' href='#activity' role='tab' aria-expanded='true'><span class='hidden-sm-up'><i class='ti-home'></i></span> <span class='hidden-xs-down'>Activity</span></a> </li>
                     <li class='nav-item'> <a class='nav-link' data-toggle='tab' data-func='Requests' href='#requests' role='tab' aria-expanded='false'><span class='hidden-sm-up'><i class='ti-user'></i></span> <span class='hidden-xs-down'>Requests</span></a> </li>
@@ -135,7 +128,7 @@
                 </div>
               </div>";
 
-    echo <<<HTML
+        echo <<<HTML
        <script>
     $(function() {
         var baseURL = '';
@@ -151,36 +144,27 @@
     });
 </script>
 HTML;
-
-
-
-     // <div class='GigButtons'> <a href='#.' class='btn apply'><i class='fa fa-paper-plane' aria-hidden='true'></i> Apply Now</a> <a href='#.' class='btn'><i class='fa fa-envelope' aria-hidden='true'></i> Email to Friend</a> <a href='#.' class='btn'><i class='fa fa-black-tie' aria-hidden='true'></i> Job Aleart</a> <a href='#.' class='btn'><i class='fa fa-floppy-o' aria-hidden='true'></i> Save This Job</a> <a href='#.' class='btn report'><i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Report Abuse</a> </div>
-      echo "</div>";
-
+        // <div class='GigButtons'> <a href='#.' class='btn apply'><i class='fa fa-paper-plane' aria-hidden='true'></i> Apply Now</a> <a href='#.' class='btn'><i class='fa fa-envelope' aria-hidden='true'></i> Email to Friend</a> <a href='#.' class='btn'><i class='fa fa-black-tie' aria-hidden='true'></i> Job Aleart</a> <a href='#.' class='btn'><i class='fa fa-floppy-o' aria-hidden='true'></i> Save This Job</a> <a href='#.' class='btn report'><i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Report Abuse</a> </div>
+        echo "</div>";
     }
-  }
+}
 
-  function Gigs_New()
-  {
+function Gigs_New()
+{
     require_once "../functions/formpage.php";
     $ContactID = Get('contactid');
     $EventID = Get('eventid');
-    $CompanyID = db("select companyid from contacts where contactid=$1",[$ContactID]);
-
-
-    if($EventID != "")
-    {
-      $EventDetails = DB("select * from events where eventid = $1", [$EventID]);
-      $Message ="";
-      $StartTime = ($EventDetails['timestart'] != '' ? $EventDetails['timestart'] : "");
-      $EndTime = ($EventDetails['timeend'] != '' ? $EventDetails['timeend'] : "");
-      $DateStart = ($EventDetails['datestart'] != '' ? $EventDetails['datestart'] : "");
-      $DateEnd = ($EventDetails['dateend'] != '' ? $EventDetails['dateend'] : "");
-    }
-    else
-    {
-      $EventDetails = $StartTime = $EndTime = $DateStart = $DateEnd = "";
-      $Message = "<div class='alert alert-warning'>
+    $CompanyID = db("select companyid from contacts where contactid=$1", [$ContactID]);
+    if ($EventID != "") {
+        $EventDetails = DB("select * from events where eventid = $1", [$EventID]);
+        $Message = "";
+        $StartTime = ($EventDetails['timestart'] != '' ? $EventDetails['timestart'] : "");
+        $EndTime = ($EventDetails['timeend'] != '' ? $EventDetails['timeend'] : "");
+        $DateStart = ($EventDetails['datestart'] != '' ? $EventDetails['datestart'] : "");
+        $DateEnd = ($EventDetails['dateend'] != '' ? $EventDetails['dateend'] : "");
+    } else {
+        $EventDetails = $StartTime = $EndTime = $DateStart = $DateEnd = "";
+        $Message = "<div class='alert alert-warning'>
                   <h3 class='text-warning'><i class='fa fa-exclamation-triangle'></i> Warning</h3>
                   Please note you are adding a Gig that is not linked to a specific event
                   and will therefore be matched as a stand alone event. This will result in limited reporting and functionality.<br>
@@ -192,23 +176,27 @@ HTML;
     echo "<div class='card'>
           <div class='card-header'>Add New Gig </div>
           <div class='card-body'>";
-    if($Message != "")
-    {
+    if ($Message != "") {
         echo "<div>$Message</div>";
     }
-    $Form = new FormPage("frmGig", "frmGig", "jobs", "jobid", '','', true);
+    $Form = new FormPage("frmGig", "frmGig", "jobs", "jobid", '', '', true);
     $Form->PostUrl = "admin/jobs.php?fn=DisplayTable&refresh=true&contactid=$ContactID&jobid=";
     $Form->ContentDiv = "Gigdiv";
 
-    if($EventID != "")
-    {
-      $Form->AddHidden("eventid","txteventid","$ContactID");
+    if ($EventID != "") {
+        $Form->AddHidden("eventid", "txteventid", "$ContactID");
     }
-    $Form->AddHidden("contactid","txtcontactid","$ContactID");
-    $Form->AddSelect("stafftypeid", "selstafftype", "1", "Peepz Type", "stafftypeid", "display", "stafftypes", "", "display", "", "", true, true, true, true, false, "", "");
-    $Form->AddTextBox("title", 'txtID', "", 'Title', '', '', '', true, true, true, false, true);
-    $Form->AddTextarea("description", "txtdescription", '', "Description", "", "", '', false, true, true,true);
-    $Form->AddSelect("ratetypeid", "selratetype", "1", "Rate Type", "ratetypeid", "display", "ratetypes", "", "display", "", "", true, true, true, false, false, "", "");
+    $Form->AddHidden("contactid", "txtcontactid", "$ContactID");
+    $Form->AddHidden("map", "map", '');
+    $Form->AddSelect("stafftypeid", "selstafftype", "1", "Peepz Type", "stafftypeid", "display", "stafftypes", "",
+        "display", "", "", true, true, true, false, false, "", "");
+    $Form->AddTextBox("title", 'txtID', "", 'Title', '', '', '', false, true, true, true, true);
+    $Form->AddTextBox('address', 'address', '', 'Address', 'Start typing address...', '', '', true, true, false, false,
+        true);
+    $Form->AddCustomCell('<img id="map_canvas" class="display:none;"/>', false, false, true, false);
+    $Form->AddTextarea("description", "txtdescription", '', "Description", "", "", '', false, true, true, true);
+    $Form->AddSelect("ratetypeid", "selratetype", "1", "Rate Type", "ratetypeid", "display", "ratetypes", "", "display",
+        "", "", true, true, true, false, false, "", "");
     $Form->AddCurrency("suggestedrate", 'txtrate', '', 'Rate', '', '', '', false, true, true, true, true);
     //$Form->AddBoolean("automaticallyapprove",)
     $Form->AddDate("datestart", 'DtStart', "$DateStart", 'Start Date', '', '', '', true, true, true, false, true);
@@ -216,24 +204,52 @@ HTML;
     $Form->AddTime("timestart", 'tmStart', "$DateEnd", 'Start Time', '', '', '', true, true, true, false, true);
     $Form->AddTime("timeend", 'tmEnd', "$EndTime", 'End Time', '', '', '', false, true, true, true, true);
 
-
-
     echo $Form->Display();
 
     echo "</div>
       </div>";
 
-  }
+    $script = <<<HTML
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://maps.googleapis.com/maps/api/js?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&libraries=places',
+                dataType: 'script',
+                success: function() {                    
+                    //Define Autocomplete Textbox
+                    var input = document.getElementById('address');
+                    var autocomplete = new google.maps.places.Autocomplete(input);
+                    
+                    //Define Place Changed Event Listener
+                    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                        var place = autocomplete.getPlace();
+                        var lat = place.geometry.location.lat();
+                        var lng = place.geometry.location.lng();
+                        var view = lat + ',' + lng;
+                        
+                        $('#map_canvas')
+                            .attr('src','http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&center=' + view + '&zoom=15&size=400x400&markers=color:green%7Clabel:S%7C' + view)
+                            .show();
+                        $('#map').val(view);
+                    })
+                },
+                async: true
+            });
+        });
+</script>
+HTML;
+    echo $script;
+}
 
-  function Gigs_GigDetail()
-  {
-     echo "coming soon";
-  }
+function Gigs_GigDetail()
+{
+    echo "coming soon";
+}
 
-  function Gigs_DisplayTable()
-  {
+function Gigs_DisplayTable()
+{
     $ContactID = Get('contactid');
-    $CompanyID = db("select companyid from contacts where contactid=$1",[$ContactID]);
+    $CompanyID = db("select companyid from contacts where contactid=$1", [$ContactID]);
     //once happy with table - move to class / common function
     echo "<div class='card'>
               <div class='card-header'>Your gigs </div>
@@ -263,18 +279,15 @@ HTML;
               (select count(*) from jobrequests where jobid = j.jobid and agentstatus=1) as newrequests
               from jobs j where companyid=$1";
 
-    if(execute_sql($sSQL, $ra, $error, [$CompanyID]))
-    {
-      foreach ($ra as $row)
-      {
-        $JobID = $row['jobid'];
-        $Url = "admin/jobs.php?fn=ViewAdmin&jobid=$JobID&contactid=$ContactID";
-        $Notifications ="";
-        if($row['newrequests'] != '0')
-        {
-          $Notifications .= "$row[newrequests] new booking requests";
-        }
-        echo "<tr>
+    if (execute_sql($sSQL, $ra, $error, [$CompanyID])) {
+        foreach ($ra as $row) {
+            $JobID = $row['jobid'];
+            $Url = "admin/jobs.php?fn=ViewAdmin&jobid=$JobID&contactid=$ContactID";
+            $Notifications = "";
+            if ($row['newrequests'] != '0') {
+                $Notifications .= "$row[newrequests] new booking requests";
+            }
+            echo "<tr>
                  <td>
                   <a onclick=\"LoadDivContent('$Url', 'Gigdiv')\"><i class='fa fa-pencil' aria-hidden='true'></i>
                   $JobID</a></td>
@@ -287,11 +300,11 @@ HTML;
                  <td>$Notifications </td>
              </tr>";
 
-      }
+        }
 
     }
 
-      echo " </tbody>
+    echo " </tbody>
              <tfoot>
               <tr>
                   <td colspan='12'>
@@ -315,61 +328,62 @@ var addrow = $('#foo-table-Gigs');
 ";
 
 
-  }
+}
 
-  function Gigs_Display()
-  {
+function Gigs_Display()
+{
     $ProfileID = Get('profileid');
     echo "Display";
 
-  }
+}
 
-  function Gigs_Requests()
-  {
+function Gigs_Requests()
+{
     $ProfileID = Get('profileid');
     echo "Requests functionality coming soon";
 
-  }
+}
 
-  function Gigs_Activity()
-  {
+function Gigs_Activity()
+{
     $ProfileID = Get('profileid');
     echo "activity functionality coming soon";
 
-  }
+}
 
-  function Gigs_ToDo()
-  {
+function Gigs_ToDo()
+{
     $ProfileID = Get('profileid');
     echo "ToDo functionality coming soon";
 
-  }
+}
 
-  function Gigs_Messages()
-  {
+function Gigs_Messages()
+{
     $ProfileID = Get('profileid');
     echo "Messages functionality coming soon";
 
-  }
+}
 
-  function Gigs_Address()
-  {
+function Gigs_Address()
+{
     $ProfileID = Get('profileid');
     echo "Address functionality coming soon";
 
-  }
+}
 
-  function Gigs_Settings()
-  {
+function Gigs_Settings()
+{
     $ProfileID = Get('profileid');
     echo "Settings functionality coming soon";
 
-  }
+}
 
-  function Gigs_Instructions()
-  {
+function Gigs_Instructions()
+{
     $ProfileID = Get('profileid');
     echo "instructions functionality coming soon";
 
-  }
+}
+
 ?>

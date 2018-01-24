@@ -150,7 +150,7 @@
      $Return .= " required='' data-validation-required-message='This field is required' ";
     }
 
-    if($Placeholder != '')
+    if($PlaceHolder != '')
     {
       $Return .= " placeholder='$PlaceHolder' ";
     }
@@ -191,7 +191,7 @@
      $Return .= " required='' data-validation-required-message='This field is required' ";
     }
 
-    if($Placeholder != '')
+    if($PlaceHolder != '')
     {
       $Return .= " placeholder='$PlaceHolder' ";
     }
@@ -226,7 +226,7 @@
      $Return .= " required='' data-validation-required-message='This field is required' ";
     }
 
-    if($Placeholder != '')
+    if($PlaceHolder != '')
     {
       $Return .= " placeholder='$PlaceHolder' ";
     }
