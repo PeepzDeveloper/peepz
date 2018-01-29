@@ -123,6 +123,20 @@ class HTML
      * @param bool $return
      * @return string
      */
+    public static function time($name, $value = '', array $attributes = [], $return = false)
+    {
+        $attributes['type'] = 'time';
+
+        return self::textBasedInput($name, $value, $attributes, $return);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @param array $attributes
+     * @param bool $return
+     * @return string
+     */
     public static function email($name, $value = '', array $attributes = [], $return = false)
     {
         $attributes['type'] = 'email';

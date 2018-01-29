@@ -99,7 +99,7 @@
                         <div class="form-group">
                             <label class="col-form-label col-md-4">Start Time</label>
                             <div class="col-md-8">
-                                <?php HTML::date('timestart', '', ['class' => 'form-control', 'data-validation-required-message' => 'This field is required']); ?>
+                                <?php HTML::time('timestart', '', ['class' => 'form-control', 'data-validation-required-message' => 'This field is required']); ?>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         <div class="form-group">
                             <label class="col-form-label col-md-4">End Time</label>
                             <div class="col-md-8">
-                                <?php HTML::date('timeend', '', ['class' => 'form-control', 'data-validation-required-message' => 'This field is required']); ?>
+                                <?php HTML::time('timeend', '', ['class' => 'form-control', 'data-validation-required-message' => 'This field is required']); ?>
                             </div>
                         </div>
                     </div>
