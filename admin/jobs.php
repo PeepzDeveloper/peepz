@@ -149,96 +149,39 @@ HTML;
     }
 }
 
+/**
+ * @param array $array
+ * @return array
+ */
+function flatten(array $array)
+{
+    $flattenedArray = [];
+    foreach ($array as $subArray) {
+        $subArray = array_values($subArray);
+        $flattenedArray[$subArray[0]] = $subArray[1];
+    }
+    return $flattenedArray;
+}
+
 function Gigs_New()
 {
-    require_once "../functions/formpage.php";
-    $ContactID = Get('contactid');
-    $EventID = Get('eventid');
+    $request = new RequestHandler();
+    $ContactID = $request->get('contactid');
+    $EventID = $request->get('eventid');
     $CompanyID = db("select companyid from contacts where contactid=$1", [$ContactID]);
+    $stafftypes = flatten(DB('SELECT stafftypeid, display FROM stafftypes ORDER BY display ASC;'));
     if ($EventID != "") {
         $EventDetails = DB("select * from events where eventid = $1", [$EventID]);
-        $Message = "";
+        $showMessage = false;
         $StartTime = ($EventDetails['timestart'] != '' ? $EventDetails['timestart'] : "");
         $EndTime = ($EventDetails['timeend'] != '' ? $EventDetails['timeend'] : "");
         $DateStart = ($EventDetails['datestart'] != '' ? $EventDetails['datestart'] : "");
         $DateEnd = ($EventDetails['dateend'] != '' ? $EventDetails['dateend'] : "");
     } else {
+        $showMessage = true;
         $EventDetails = $StartTime = $EndTime = $DateStart = $DateEnd = "";
-        $Message = "<div class='alert alert-warning'>
-                  <h3 class='text-warning'><i class='fa fa-exclamation-triangle'></i> Warning</h3>
-                  Please note you are adding a Gig that is not linked to a specific event
-                  and will therefore be matched as a stand alone event. This will result in limited reporting and functionality.<br>
-                  If intended, please ignore, else
-                  <button type='button' onclick=\"LoadMainContent('admin/projects.php?profileid=$ContactID')\" class='btn waves-effect waves-light btn-xs btn-info'>click here</button>
-                    to setup from the Events Management.</div>";
     }
-
-    echo "<div class='card'>
-          <div class='card-header'>Add New Gig </div>
-          <div class='card-body'>";
-    if ($Message != "") {
-        echo "<div>$Message</div>";
-    }
-    $Form = new FormPage("frmGig", "frmGig", "jobs", "jobid", '', '', true);
-    $Form->PostUrl = "admin/jobs.php?fn=DisplayTable&refresh=true&contactid=$ContactID&jobid=";
-    $Form->ContentDiv = "Gigdiv";
-
-    if ($EventID != "") {
-        $Form->AddHidden("eventid", "txteventid", "$ContactID");
-    }
-    $Form->AddHidden("contactid", "txtcontactid", "$ContactID");
-    $Form->AddHidden("map", "map", '');
-    $Form->AddSelect("stafftypeid", "selstafftype", "1", "Peepz Type", "stafftypeid", "display", "stafftypes", "",
-        "display", "", "", true, true, true, false, false, "", "");
-    $Form->AddTextBox("title", 'txtID', "", 'Title', '', '', '', false, true, true, true, true);
-    $Form->AddTextBox('address', 'address', '', 'Address', 'Start typing address...', '', '', true, true, false, false,
-        true);
-    $Form->AddCustomCell('<img id="map_canvas" class="display:none;"/>', false, false, true, false);
-    $Form->AddTextarea("description", "txtdescription", '', "Description", "", "", '', false, true, true, true);
-    $Form->AddSelect("ratetypeid", "selratetype", "1", "Rate Type", "ratetypeid", "display", "ratetypes", "", "display",
-        "", "", true, true, true, false, false, "", "");
-    $Form->AddCurrency("suggestedrate", 'txtrate', '', 'Rate', '', '', '', false, true, true, true, true);
-    //$Form->AddBoolean("automaticallyapprove",)
-    $Form->AddDate("datestart", 'DtStart', "$DateStart", 'Start Date', '', '', '', true, true, true, false, true);
-    $Form->AddDate("dateend", 'dtEnd', "$StartTime", 'End Date', '', '', '', false, true, true, true, true);
-    $Form->AddTime("timestart", 'tmStart', "$DateEnd", 'Start Time', '', '', '', true, true, true, false, true);
-    $Form->AddTime("timeend", 'tmEnd', "$EndTime", 'End Time', '', '', '', false, true, true, true, true);
-
-    echo $Form->Display();
-
-    echo "</div>
-      </div>";
-
-    $script = <<<HTML
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: 'http://maps.googleapis.com/maps/api/js?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&libraries=places',
-                dataType: 'script',
-                success: function() {                    
-                    //Define Autocomplete Textbox
-                    var input = document.getElementById('address');
-                    var autocomplete = new google.maps.places.Autocomplete(input);
-                    
-                    //Define Place Changed Event Listener
-                    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-                        var place = autocomplete.getPlace();
-                        var lat = place.geometry.location.lat();
-                        var lng = place.geometry.location.lng();
-                        var view = lat + ',' + lng;
-                        
-                        $('#map_canvas')
-                            .attr('src','http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&center=' + view + '&zoom=15&size=400x400&markers=color:green%7Clabel:S%7C' + view)
-                            .show();
-                        $('#map').val(view);
-                    })
-                },
-                async: true
-            });
-        });
-</script>
-HTML;
-    echo $script;
+    require_once TEMPLATE_DIR . 'Gigs/New.php';
 }
 
 function Gigs_GigDetail()

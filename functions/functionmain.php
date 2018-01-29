@@ -1,4 +1,7 @@
 <?php
+  require_once "conset/config.php";
+  require_once "HTML.php";
+  require_once "RequestHandler.php";
   session_start();
 
   if(isset($_GET['logout']))
@@ -7,7 +10,7 @@
   }
   if(isset($RequireLogin) && $RequireLogin)
   {
-    if (!isset($_SESSION['userid']) && $currpage != 'login.php')
+    if (!isset($_SESSION['userid']) && (empty($currpage) || $currpage !== 'login.php'))
     {
       echo "<script language=javascript>document.location.href='beta/login.php';</script>";
       //echo "<script language=javascrip>LoadMainContent('../beta/login.php');</script>";
