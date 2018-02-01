@@ -1,6 +1,5 @@
 <?php
-  $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-  require_once $INC_DIR."functions/functionmain.php";
+    require_once "../functions/functionmain.php";
 
   call_user_func('editprofile_' . Get("fn", 'Default'));
 
@@ -88,8 +87,6 @@
 
   function editprofile_EditAbout()
   {
-      $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-      require_once $INC_DIR."functions/formpage.php";
       $ProfileID = Get('profileid');
       $FormOnly = Get('formonly');
       $ContentDiv = Get('contentdiv', 'divProfileAbout');
@@ -120,8 +117,6 @@
 
   function editprofile_EditAttributes()
   {
-      $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-      require_once $INC_DIR."functions/formpage.php";
       $ProfileID = Get('profileid');
       $FormOnly = Get('formonly');
       $ContentDiv = Get('contentdiv', 'divProfileAttr');
@@ -241,8 +236,6 @@
 
   function editprofile_EditDetails()
   {
-      $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-      require_once $INC_DIR."functions/formpage.php";
       $ProfileID = Get('profileid');
       $ContentDiv = Get('contentdiv', 'divProfileHeader');
       $PostUrl = html_entity_decode(Get('posturl', 'promo/profile.php?fn=DisplayHeader&refresh=true&profileid='));
@@ -255,7 +248,7 @@
       }
       else
       {
-        $SQL = "select firstnames,surname,email,cellno, idno, suburb, profileimage, configured, isagent from contacts where contactid=$1";
+        $SQL = "select firstnames,surname,email,cellno, idno, suburb, profileimage, configured, isagent, address, coordinates from contacts where contactid=$1";
         if(execute_sql($SQL, $Details, $error,["$ProfileID"]))
         {
           $rwDetail = $Details[0];
@@ -281,14 +274,48 @@
                             </div>";
               $Form->AddCustomCell($HTMLAgent);
           }
+
           $Form->AddFileDrop("profileimage", "txtprofileimage", $rwDetail['profileimage'], "Profile Image", "", "", '', true, true, true,true);
           $Form->AddTextBox("firstnames", "txtfirstnames", $rwDetail['firstnames'], "First Names", "", "", '', true, true, true,false, true);
           $Form->AddTextBox("surname", "txtsurname", $rwDetail['surname'], "Surname", "", "", '', false, true, true,true, true);
           $Form->AddTextBox("email", "txtemail", $rwDetail['email'], "Email", "", "", '', true, true, true,false, true);
           $Form->AddTextBox("cellno", "txtcellno", $rwDetail['cellno'], "Cell", "", "", '', false, true, true,true, true);
-          $Form->AddTextBox("idno", "txtidno", $rwDetail['idno'], "ID No", "", "", '', true, true, true,true, true);
+          $Form->AddTextBox("idno", "txtidno", $rwDetail['idno'], "ID No", "", "", '', true, true, true,false, true);
+          $Form->AddTextBox("address", "address", $rwDetail['address'], "Address", "", "", '', false, true, true,true, true);
+          $Form->AddHidden("coordinates", "coordinates", $rwDetail['coordinates']);
+          $Form->AddCustomHTML('<img id="map_canvas" style="display:none;">');
 
           echo $Form->Display();
+          echo <<<HTML
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://maps.googleapis.com/maps/api/js?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&libraries=places',
+                dataType: 'script',
+                success: function() {
+                    //Define Autocomplete Textbox
+                    var input = document.getElementById('address');
+                    var autocomplete = new google.maps.places.Autocomplete(input);
+
+                    //Define Place Changed Event Listener
+                    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                        var place = autocomplete.getPlace();
+                        var lat = place.geometry.location.lat();
+                        var lng = place.geometry.location.lng();
+                        var view = lat + ',' + lng;
+
+                        $('#map_canvas')
+                            .attr('src','http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&center=' + view + '&zoom=15&size=400x400&markers=color:green%7Clabel:S%7C' + view)
+                            .show();
+                        $('#coordinates').val(view);
+                    })
+                },
+                async: true
+            });
+        });
+    </script>
+HTML;
+
         }
         else
         {
@@ -299,8 +326,6 @@
 
   function editprofile_EditPortfolio()
   {
-      $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-      require_once $INC_DIR."functions/formpage.php";
       $ProfileID = Get('profileid');
       $ContentDiv = Get('contentdiv', 'divProfilePortfolio');
 
@@ -443,8 +468,6 @@
 
   function editprofile_AddCompany()
   {
-      $INC_DIR = $_SERVER["DOCUMENT_ROOT"] ."/peepz/";
-      require_once $INC_DIR."functions/formpage.php";
       $ProfileID = Get('profileid');
       $ContentDiv = Get('contentdiv', 'divProfileHeader');
       $PostUrl = html_entity_decode(Get('posturl', 'promo/profile.php?fn=DisplayHeader&refresh=true&profileid='.$ProfileID.'&companyid='));

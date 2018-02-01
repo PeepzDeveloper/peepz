@@ -1,7 +1,6 @@
 <?php
   $RequireLogin = true;
-  $INC_DIR = $_SERVER["DOCUMENT_ROOT"] . "/peepz/";
-  require_once $INC_DIR."functions/functionmain.php";
+  require_once "../functions/functionmain.php";
 
   call_user_func('dashboard_' . Get("fn", 'Default'));
 

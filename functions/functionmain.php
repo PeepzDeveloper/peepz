@@ -2,6 +2,7 @@
   require_once "conset/config.php";
   require_once "HTML.php";
   require_once "RequestHandler.php";
+  require_once "formpage.php";
   session_start();
 
   if(isset($_GET['logout']))
