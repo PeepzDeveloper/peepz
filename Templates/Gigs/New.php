@@ -11,7 +11,7 @@
                     </div>
                 </div>
             <?php endif; ?>
-            <form action="admin/jobs.php?fn=DisplayTable&refresh=true&contactid=$ContactID&jobid=" id='frmGig' name='frmGig' method='post' class='form-horizontal' enctype='multipart/form-data'>
+            <form action="admin/createJob.php" id='frmGig' name='frmGig' method='post' class='form-horizontal'>
                 <?php if (empty($EventID) === false) : ?>
                     <?php HTML::hidden('eventid', $EventID); ?>
                 <?php endif; ?>
@@ -147,7 +147,7 @@
                 {
                     $('#divsave').html("<p><img src='images/loader.gif' style='width:12px; height:12px;'>Loading...</p>");
                     $.ajax({
-                        url: 'functions/insert.php?save=y',
+                        url: 'admin/createJob.php',
                         type: 'POST',
                         data: new FormData(this),
                         contentType: false,
@@ -190,7 +190,7 @@
                         $('#map_canvas')
                             .attr('src','http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyA5h9a9VU1vQ_8CdWmIIZcLu9dAtTJvKb0&center=' + view + '&zoom=15&size=400x400&markers=color:green%7Clabel:S%7C' + view)
                             .show();
-                        $('#map').val(view);
+                        $('#coordinates').val(view);
                     })
                 },
                 async: true
