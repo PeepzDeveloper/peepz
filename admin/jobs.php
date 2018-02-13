@@ -149,20 +149,6 @@ HTML;
     }
 }
 
-/**
- * @param array $array
- * @return array
- */
-function flatten(array $array)
-{
-    $flattenedArray = [];
-    foreach ($array as $subArray) {
-        $subArray = array_values($subArray);
-        $flattenedArray[$subArray[0]] = $subArray[1];
-    }
-    return $flattenedArray;
-}
-
 function Gigs_New()
 {
     $request = new RequestHandler();
